@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>3D Turbulence Viewer</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-    <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <meta charset='utf-8'>
+    <title>3D Turbulence Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.3.1/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.3.1/dist/maplibre-gl.js'></script>
     <style>
         body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        html, body, #map { height: 100%; }
     </style>
 </head>
 <body>
@@ -16,14 +16,53 @@
 <script>
     const map = new maplibregl.Map({
       container: 'map',
-      style: './style.json', // локальный стиль
+      style: 'https://api.maptiler.com/maps/basic-v2/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
       center: [60, 50],
       zoom: 4,
       pitch: 60,
-      bearing: 20
+      bearing: 0,
+      canvasContextAttributes: {antialias: true}
     });
 
-    map.addControl(new maplibregl.NavigationControl());
+    map.on('load', () => {
+      map.addSource('turb', {
+        type: 'vector',
+        url: 'https://tiles.weather.gis-master.ru/sources/turbulence'
+      });
+
+      map.addLayer({
+        id: 'turbulence-3d',
+        type: 'fill-extrusion',
+        source: 'turb',
+        'source-layer': 'turbulence',
+        paint: {
+          'fill-extrusion-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'maxHeight'],
+            6000, '#ffffcc',
+            9000, '#fd8d3c',
+            12000, '#e31a1c'
+          ],
+          'fill-extrusion-height': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, 0,
+            5, ['get', 'maxHeight']
+          ],
+          'fill-extrusion-base': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, 0,
+            5, ['get', 'minHeight']
+          ],
+          'fill-extrusion-opacity': 0.8,
+          'fill-extrusion-vertical-gradient': true
+        }
+      });
+    });
 </script>
 </body>
 </html>
