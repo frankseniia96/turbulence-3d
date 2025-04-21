@@ -18,12 +18,29 @@
       container: 'map',
       style: './style.json', // локальный стиль
       center: [60, 50],
-      zoom: 4,
-      pitch: 89,
-      bearing: 150
+      zoom: 5,
+      pitch: 70,
+      bearing: 0,
+      antialias: true
     });
 
     map.addControl(new maplibregl.NavigationControl());
+
+    // 🎥 Cinematic camera fly-around
+    let angle = 0;
+    function rotateCamera() {
+      angle += 0.1;
+      map.easeTo({
+        bearing: angle,
+        duration: 100,
+        easing: t => t
+      });
+      requestAnimationFrame(rotateCamera);
+    }
+
+    map.on('load', () => {
+      rotateCamera();
+    });
 </script>
 </body>
 </html>
