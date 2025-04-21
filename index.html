@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>3D Turbulence Viewer</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
-    <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <meta charset='utf-8'>
+    <title>3D Turbulence on Globe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.4.0/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.4.0/dist/maplibre-gl.js'></script>
     <style>
         body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        html, body, #map { height: 100%; }
     </style>
 </head>
 <body>
@@ -16,30 +16,21 @@
 <script>
     const map = new maplibregl.Map({
       container: 'map',
-      style: './style.json', // локальный стиль
+      style: './style.json', // подключаем внешний стиль
       center: [60, 50],
-      zoom: 5,
+      zoom: 3.5,
       pitch: 70,
       bearing: 0,
       antialias: true
     });
 
-    map.addControl(new maplibregl.NavigationControl());
+    // добавим навигацию и глобусный контроль
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    map.addControl(new maplibregl.GlobeControl(), 'top-right');
 
-    // 🎥 Cinematic camera fly-around
-    let angle = 0;
-    function rotateCamera() {
-      angle += 0.1;
-      map.easeTo({
-        bearing: angle,
-        duration: 100,
-        easing: t => t
-      });
-      requestAnimationFrame(rotateCamera);
-    }
-
-    map.on('load', () => {
-      rotateCamera();
+    // установим проекцию глобуса
+    map.on('style.load', () => {
+      map.setProjection({ type: 'globe' });
     });
 </script>
 </body>
