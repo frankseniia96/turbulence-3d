@@ -1,46 +1,28 @@
 {
   "version": 8,
-  "name": "3D Turbulence Viewer",
+  "name": "3D Turbulence + OSM Background",
   "center": [60, 50],
-  "zoom": 0,
+  "zoom": 4,
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "sprite": "https://tiles.weather.gis-master.ru/sprite/weather",
   "sources": {
+    "osm": {
+      "type": "raster",
+      "tiles": ["https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
+      "tileSize": 256
+    },
     "turb": {
       "type": "vector",
       "url": "https://tiles.weather.gis-master.ru/sources/turbulence"
-    },
-    "openmaptiles": {
-      "type": "vector",
-      "url": "https://api.maptiler.com/tiles/v3-openmaptiles/tiles.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL"
     }
   },
   "layers": [
     {
-      "id": "bg",
-      "type": "background",
-      "paint": {
-        "background-color": "#f0f0f0"
-      }
-    },
-    {
-      "id": "water",
-      "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "water",
-      "paint": {
-        "fill-color": "#aadaff"
-      }
-    },
-    {
-      "id": "boundaries",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "boundary",
-      "paint": {
-        "line-color": "#999999",
-        "line-width": 1
-      }
+      "id": "osm-bg",
+      "type": "raster",
+      "source": "osm",
+      "minzoom": 0,
+      "maxzoom": 19
     },
     {
       "id": "turb3d",
