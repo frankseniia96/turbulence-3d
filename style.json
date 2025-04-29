@@ -30,7 +30,7 @@
       "source": "turb",
       "source-layer": "turbulence",
       "paint": {
-        "fill-extrusion-opacity": 0.6,
+        "fill-extrusion-opacity": 0.9,
         "fill-extrusion-height": ["get", "height_max"],
         "fill-extrusion-base": ["get", "height_min"],
         "fill-extrusion-color": [
@@ -42,31 +42,6 @@
           12000, "#e31a1c"
         ],
         "fill-extrusion-vertical-gradient": true
-      }
-    },
-    {
-      "id": "turbulence-labels",
-      "type": "symbol",
-      "source": "turb",
-      "source-layer": "turbulence",
-      "layout": {
-        "text-field": [
-          "concat",
-          ["get", "degree_of_turbulence_shot"],
-          "\n",
-          ["get", "height_min_fl"],
-          "/",
-          ["get", "height_max_fl"]
-        ],
-        "text-font": ["Roboto Black"],
-        "text-size": 12,
-        "text-anchor": "center",
-        "visibility": "visible"
-      },
-      "paint": {
-        "text-color": "#ffffff",
-        "text-halo-color": "#333333",
-        "text-halo-width": 1.5
       }
     }
   ]
