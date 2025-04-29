@@ -31,12 +31,12 @@
       "source-layer": "turbulence",
       "paint": {
         "fill-extrusion-opacity": 0.6,
-        "fill-extrusion-height": ["get", "maxHeight"],
-        "fill-extrusion-base": ["get", "minHeight"],
+        "fill-extrusion-height": ["get", "height_max"],
+        "fill-extrusion-base": ["get", "height_min"],
         "fill-extrusion-color": [
           "interpolate",
           ["linear"],
-          ["get", "maxHeight"],
+          ["get", "height_max"],
           6000, "#a1c4fd",
           9000, "#c2b0f9",
           12000, "#7b61ff"
