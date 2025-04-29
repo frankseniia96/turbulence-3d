@@ -37,9 +37,9 @@
           "interpolate",
           ["linear"],
           ["get", "height_max"],
-          6000, "#a1c4fd",
-          9000, "#c2b0f9",
-          12000, "#7b61ff"
+          6000, "#ffffcc",
+          9000, "#fd8d3c",
+          12000, "#e31a1c"
         ],
         "fill-extrusion-vertical-gradient": true
       }
