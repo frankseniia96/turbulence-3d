@@ -30,18 +30,43 @@
       "source": "turb",
       "source-layer": "turbulence",
       "paint": {
-        "fill-extrusion-opacity": 0.9,
+        "fill-extrusion-opacity": 0.7,
         "fill-extrusion-height": ["get", "height_max"],
         "fill-extrusion-base": ["get", "height_min"],
         "fill-extrusion-color": [
           "interpolate",
           ["linear"],
           ["get", "height_max"],
-          6000, "#ffffcc",
-          9000, "#fd8d3c",
-          12000, "#e31a1c"
+          6000, "#a1c4fd",
+          9000, "#c2b0f9",
+          12000, "#7b61ff"
         ],
         "fill-extrusion-vertical-gradient": true
+      }
+    },
+    {
+      "id": "turbulence-labels",
+      "type": "symbol",
+      "source": "turb",
+      "source-layer": "turbulence",
+      "layout": {
+        "text-field": [
+          "concat",
+          ["get", "degree_of_turbulence_shot"],
+          "\n",
+          ["get", "height_min_fl"],
+          "/",
+          ["get", "height_max_fl"]
+        ],
+        "text-font": ["Roboto Black"],
+        "text-size": 12,
+        "text-anchor": "center",
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#ffffff",
+        "text-halo-color": "#333333",
+        "text-halo-width": 1.5
       }
     }
   ]
