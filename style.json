@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "name": "3D Turbulence + OSM Background",
+  "name": "3D Turbulence + Shadow",
   "center": [60, 50],
   "zoom": 4,
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
@@ -23,6 +23,19 @@
       "source": "osm",
       "minzoom": 0,
       "maxzoom": 19
+    },
+    {
+      "id": "turbulence-shadow",
+      "type": "fill",
+      "source": "turb",
+      "source-layer": "turbulence",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "rgba(100, 100, 100, 0.3)",
+        "fill-outline-color": "rgba(60, 60, 60, 0.2)"
+      }
     },
     {
       "id": "turb3d",
