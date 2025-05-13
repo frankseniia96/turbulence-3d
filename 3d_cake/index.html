@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset='utf-8'>
+    <title>3D Turbulence on Globe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://unpkg.com/maplibre-gl@5.4.0/dist/maplibre-gl.css' />
+    <script src='https://unpkg.com/maplibre-gl@5.4.0/dist/maplibre-gl.js'></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        html, body, #map { height: 100%; }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<!-- Tooltip -->
+<div id="tooltip" style="
+    position: absolute;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    pointer-events: none;
+    font-size: 12px;
+    display: none;
+    z-index: 1;
+"></div>
+
+<script>
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://frankseniia96.github.io/turbulence-3d/3d_cake/style.json',
+      center: [60, 50],
+      zoom: 3.5,
+      pitch: 70,
+      bearing: 0,
+      antialias: true
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    map.addControl(new maplibregl.GlobeControl(), 'top-right');
+
+    map.on('style.load', () => {
+      map.setProjection({ type: 'globe' });
+    });
+
+    // Tooltip
+    const tooltip = document.getElementById('tooltip');
+
+    map.on('mousemove', (e) => {
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: ['turb3d']
+      });
+
+      if (features.length) {
+        const feature = features[0];
+        tooltip.style.display = 'block';
+        tooltip.style.left = e.point.x + 10 + 'px';
+        tooltip.style.top = e.point.y + 10 + 'px';
+
+        const degree = feature.properties.degree_of_turbulence || 'N/A';
+        const minH = feature.properties.height_min || 'N/A';
+        const maxH = feature.properties.height_max || 'N/A';
+
+        tooltip.innerHTML = `
+          <b>Тип турбулентности:</b> ${degree}<br/>
+          <b>Высота:</b> ${minH}/${maxH} м
+        `;
+      } else {
+        tooltip.style.display = 'none';
+      }
+    });
+</script>
+</body>
+</html>

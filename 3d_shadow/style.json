@@ -1,0 +1,86 @@
+{
+  "version": 8,
+  "name": "3D Turbulence + Shadow",
+  "center": [60, 50],
+  "zoom": 4,
+  "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
+  "sprite": "https://tiles.weather.gis-master.ru/sprite/weather",
+  "sources": {
+    "osm": {
+      "type": "raster",
+      "tiles": ["https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
+      "tileSize": 256
+    },
+    "turb": {
+      "type": "vector",
+      "url": "https://tiles.weather.gis-master.ru/sources/turbulence"
+    }
+  },
+  "layers": [
+    {
+      "id": "osm-bg",
+      "type": "raster",
+      "source": "osm",
+      "minzoom": 0,
+      "maxzoom": 19
+    },
+    {
+      "id": "turbulence-shadow",
+      "type": "fill",
+      "source": "turb",
+      "source-layer": "turbulence",
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "rgba(100, 100, 100, 0.3)",
+        "fill-outline-color": "rgba(60, 60, 60, 0.2)"
+      }
+    },
+    {
+      "id": "turb3d",
+      "type": "fill-extrusion",
+      "source": "turb",
+      "source-layer": "turbulence",
+      "paint": {
+        "fill-extrusion-opacity": 0.7,
+        "fill-extrusion-height": ["get", "height_max"],
+        "fill-extrusion-base": ["get", "height_min"],
+        "fill-extrusion-color": [
+          "interpolate",
+          ["linear"],
+          ["get", "height_max"],
+          6000, "#a1c4fd",
+          9000, "#c2b0f9",
+          12000, "#7b61ff"
+        ],
+        "fill-extrusion-vertical-gradient": true
+      }
+    },
+    {
+      "id": "turbulence-labels",
+      "type": "symbol",
+      "source": "turb",
+      "source-layer": "turbulence",
+      "layout": {
+        "text-field": [
+          "concat",
+          ["get", "degree_of_turbulence_shot"],
+          "\n",
+          ["get", "height_min_fl"],
+          "/",
+          ["get", "height_max_fl"]
+        ],
+        "text-font": ["Roboto Black"],
+        "text-size": 12,
+        "text-anchor": "center",
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#ffffff",
+        "text-halo-color": "#333333",
+        "text-halo-width": 1.5
+      }
+    }
+  ]
+}
